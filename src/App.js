@@ -6,8 +6,10 @@ function App() {
 
 
   return (
-
-    <Editor placeholder="Tex in"/>
+    <>
+    <Editor placeholder="<speak>Your text here</speak>"/>
+    <div id="editor"></div>
+    </>
   )
   
 }
