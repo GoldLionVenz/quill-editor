@@ -64,10 +64,10 @@ const ssml_sayAs = [
 /*
  * Custom toolbar component including insertStar button and dropdowns
  */
-const CustomToolbar = () => {
+const CustomToolbar = (props) => {
   return(
   <div id="toolbar">
-    <select className="ql-header">
+    <select className="ql-header" onChange={(event)=>props.setPlatform(event.value.target)}>
         <option value="amazon" className="ql-ssml_date">
           Amazon
         </option>
@@ -166,7 +166,7 @@ function Editor(props) {
 
   return (
     <div className="text-editor">
-      <CustomToolbar />
+      <CustomToolbar setPlatform = { (platform) => {console.log('here',platform); setPlataform(platform)} }/>
       <ReactQuill
         ref={quillRef}
         value={editorHtml}
