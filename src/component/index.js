@@ -64,86 +64,162 @@ const ssml_sayAs = [
 /*
  * Custom toolbar component including insertStar button and dropdowns
  */
-const CustomToolbar = () => {
-  return(
-  <div id="toolbar">
-    <select className="ql-header">
+const CustomToolbarAmazon = (props) => {
+  return (
+    <div id="toolbar">
+      <select
+        style={{ display: "inline" }}
+        value={props.plataform}
+        onChange={(e) => props.setPlataform(e.target.value)}
+      >
         <option value="amazon" className="ql-ssml_date">
           Amazon
         </option>
         <option value="google" className="ql-ssml_date">
           Google
         </option>
-    </select>
-    <button className="ql-insertSpeak">
-      <FaRegComment />
-    </button>
-    <select className="ql-insertBreak ql-header">
-      {ssml_breaks.map((breakOption) => (
-        <option key={breakOption} value={breakOption} className="ql-ssml_date">
-          {breakOption}
-        </option>
-      ))}
-    </select>
-    <button className="ql-insertEmphasis">
-      <IoIosVolumeHigh />
-    </button>
-    <button className="ql-insertWhisperingAmazon">
-      <IoIosVolumeLow />
-    </button>
-    <select className="ql-insertLanguage ql-header">
-      {ssml_languages.map((language) => (
-        <option key={language} value={language} className="ql-ssml_date">
-          {language}
-        </option>
-      ))}
-    </select>
-    <button className="ql-insertParagraph">
-      <BiParagraph />
-    </button>
-    <select className="ql-insertSayAs ql-header">
-      {ssml_sayAs.map((say) => (
-        <option key={say} value={say} className="ql-ssml_date">
-          {say}
-        </option>
-      ))}
-    </select>
-    <select className="ql-insertDate ql-header">
-      {ssml_dates.map((date) => (
-        <option key={date} value={date} className="ql-ssml_date">
-          {date}
-        </option>
-      ))}
-    </select>
-    <button className="ql-insertSubstitute" title="Substitute">
-      <BiPencil />
-    </button>
-    <button className="ql-insertPhoneme" title="Substitute">
-      <BiFont />
-    </button>
-    <button className="ql-parse" title="Substitute">
-      <BiCodeAlt />
-    </button>
-    {/*<button className="ql-insertBreath" title="Substitute">
-      <FaPodcast/>
-      </button>*/}
+      </select>
+      <button className="ql-insertSpeak">
+        <FaRegComment />
+      </button>
+      <select className="ql-insertBreak ql-header">
+        {ssml_breaks.map((breakOption) => (
+          <option
+            key={breakOption}
+            value={breakOption}
+            className="ql-ssml_date"
+          >
+            {breakOption}
+          </option>
+        ))}
+      </select>
+      <button className="ql-insertEmphasis">
+        <IoIosVolumeHigh />
+      </button>
+      {props.plataform === "amazon" ? (
+        <button className="ql-insertWhisperingAmazon">
+          <IoIosVolumeLow />
+        </button>
+      ) : (
+        <button className="ql-insertWhisperingGoogle">
+          <IoIosVolumeLow />
+        </button>
+      )}
+      <select className="ql-insertLanguage ql-header">
+        {ssml_languages.map((language) => (
+          <option key={language} value={language} className="ql-ssml_date">
+            {language}
+          </option>
+        ))}
+      </select>
+      <button className="ql-insertParagraph">
+        <BiParagraph />
+      </button>
+      <select className="ql-insertSayAs ql-header">
+        {ssml_sayAs.map((say) => (
+          <option key={say} value={say} className="ql-ssml_date">
+            {say}
+          </option>
+        ))}
+      </select>
+      <select className="ql-insertDate ql-header">
+        {ssml_dates.map((date) => (
+          <option key={date} value={date} className="ql-ssml_date">
+            {date}
+          </option>
+        ))}
+      </select>
+      <button className="ql-insertSubstitute" title="Substitute">
+        <BiPencil />
+      </button>
+      <button className="ql-insertPhoneme" title="Substitute">
+        <BiFont />
+      </button>
+      <button className="ql-parse" title="Substitute">
+        <BiCodeAlt />
+      </button>
+    </div>
+  );
+};
 
-    {/*<button className="ql-insertSayAsNumber">
-      <IoIosAdd />
-    </button>
-    <button className="ql-insertEmphasisStrong">
-      <IoIosAirplane />
-      </button>*/}
-  </div>
-);}
-
+const CustomToolbarGoogle = (props) => {
+  return (
+    <div id="toolbar">
+      <select
+        style={{ display: "inline" }}
+        value={props.plataform}
+        onChange={(e) => props.setPlataform(e.target.value)}
+      >
+        <option value="amazon" className="ql-ssml_date">
+          Amazon
+        </option>
+        <option value="google" className="ql-ssml_date">
+          Google
+        </option>
+      </select>
+      <button className="ql-insertSpeak">
+        <FaRegComment />
+      </button>
+      <select className="ql-insertBreak ql-header">
+        {ssml_breaks.map((breakOption) => (
+          <option
+            key={breakOption}
+            value={breakOption}
+            className="ql-ssml_date"
+          >
+            {breakOption}
+          </option>
+        ))}
+      </select>
+      <button className="ql-insertEmphasis">
+        <IoIosVolumeHigh />
+      </button>
+      <button className="ql-insertWhisperingGoogle">
+        <IoIosVolumeLow />
+      </button>
+      <select className="ql-insertLanguage ql-header">
+        {ssml_languages.map((language) => (
+          <option key={language} value={language} className="ql-ssml_date">
+            {language}
+          </option>
+        ))}
+      </select>
+      <button className="ql-insertParagraph">
+        <BiParagraph />
+      </button>
+      <select className="ql-insertSayAs ql-header">
+        {ssml_sayAs.map((say) => (
+          <option key={say} value={say} className="ql-ssml_date">
+            {say}
+          </option>
+        ))}
+      </select>
+      <select className="ql-insertDate ql-header">
+        {ssml_dates.map((date) => (
+          <option key={date} value={date} className="ql-ssml_date">
+            {date}
+          </option>
+        ))}
+      </select>
+      <button className="ql-insertSubstitute" title="Substitute">
+        <BiPencil />
+      </button>
+      <button className="ql-insertPhoneme" title="Substitute">
+        <BiFont />
+      </button>
+      <button className="ql-parse" title="Substitute">
+        <BiCodeAlt />
+      </button>
+    </div>
+  );
+};
 /*
  * Editor component with custom toolbar and content containers
  */
 function Editor(props) {
   const [editorHtml, setEditorHtml] = useState("");
   const quillRef = useRef(null);
-  const [plataform, setPlataform] = useState("amazon")
+  const [plataform, setPlataform] = useState("amazon");
   const handleChange = (html) => {
     setEditorHtml(html);
     let element = document.querySelector(".ql-container");
@@ -166,13 +242,23 @@ function Editor(props) {
 
   return (
     <div className="text-editor">
-      <CustomToolbar />
+      {plataform === "amazon" ? (
+        <CustomToolbarAmazon
+          plataform={plataform}
+          setPlataform={(newPlataform) => setPlataform(newPlataform)}
+        />
+      ) : (
+        <CustomToolbarGoogle
+          plataform={plataform}
+          setPlataform={(newPlataform) => setPlataform(newPlataform)}
+        />
+      )}
       <ReactQuill
         ref={quillRef}
         value={editorHtml}
         onChange={handleChange}
         placeholder={props.placeholder}
-        modules={Editor.modules}
+        modules={plataform === "amazon"?Editor.modulesAmazon:Editor.modulesGoogle}
         id="editor"
       />
     </div>
@@ -184,13 +270,14 @@ function Editor(props) {
  * See http://quilljs.com/docs/modules/ for complete options
  */
 
-Editor.modules = {
+Editor.modulesAmazon = {
   //toolbar: ssmlToolbarOptions,
   //'modules/rich-voice-editor':true
   toolbar: {
     container: "#toolbar",
     handlers: {
-      insertSpeak: function () {
+      insertSpeak: function (props) {
+        console.log(props)
         insert(this.quill, "<speak>", "</speak>");
       },
       insertSayAsNumber: function () {
@@ -220,11 +307,7 @@ Editor.modules = {
         );
       },
       insertWhisperingGoogle: function () {
-        insert(
-          this.quill,
-          '<emphasis level="reduced">',
-          "</emphasis>"
-        );
+        insert(this.quill, '<emphasis level="reduced">', "</emphasis>");
       },
       insertLanguage: function (value) {
         insert(this.quill, '<lang xml:lang="' + value + '">', "</lang>");
@@ -256,12 +339,88 @@ Editor.modules = {
           "</phoneme>"
         );
       },
-      parse: function (){
-        parse(this.quill)
-      }
+      parse: function () {
+        parse(this.quill);
+      },
     },
   },
 };
+Editor.modulesGoogle = {
+  //toolbar: ssmlToolbarOptions,
+  //'modules/rich-voice-editor':true
+  toolbar: {
+    container: "#toolbar",
+    handlers: {
+      insertSpeak: function () {
+        console.log(this.props)
+        insert(this.quill, "<speak>", "</speak>");
+      },
+      insertSayAsNumber: function () {
+        insert(this.quill, '<say-as interpret-as="number">', "</say-as>");
+      },
+      insertEmphasisStrong: function () {
+        insert(this.quill, '<emphasis level="strong">', "</emphasis>");
+      },
+      insertDate: function (value) {
+        insert(
+          this.quill,
+          '<say-as interpret-as="date" format="' + value + '">',
+          "</say-as>"
+        );
+      },
+      insertBreak: function (value) {
+        insert(this.quill, '<break strength="' + value + '"/>', "");
+      },
+      insertEmphasis: function () {
+        insert(this.quill, '<emphasis level="strong">', "</emphasis>");
+      },
+      insertWhisperingAmazon: function () {
+        insert(
+          this.quill,
+          '<amazon:effect name="whispered">',
+          "</amazon:effect>"
+        );
+      },
+      insertWhisperingGoogle: function () {
+        insert(this.quill, '<emphasis level="reduced">', "</emphasis>");
+      },
+      insertLanguage: function (value) {
+        insert(this.quill, '<lang xml:lang="' + value + '">', "</lang>");
+      },
+      insertParagraph: function () {
+        insert(this.quill, "<p>", "</p>");
+      },
+      insertSayAs: function (value) {
+        insert(
+          this.quill,
+          '<say-as interpret-as="' + value + '">',
+          "</say-as>"
+        );
+      },
+      insertSubstitute: function () {
+        insert(
+          this.quill,
+          '<sub alias="Enter Substitute Text Here">',
+          "</sub>"
+        );
+      },
+      insertBreath: function () {
+        insert(this.quill, "<amazon:auto-breaths>", "</amazon:auto-breaths>");
+      },
+      insertPhoneme: function () {
+        insert(
+          this.quill,
+          '<phoneme alphabet="ipa" ph="pɪˈkɑːn">',
+          "</phoneme>"
+        );
+      },
+      parse: function () {
+        parse(this.quill);
+      },
+    },
+  },
+};
+
 
 /*
  * Quill editor formats
