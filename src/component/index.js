@@ -1,14 +1,12 @@
 import React, { useState, useRef } from "react";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import { IoIosAdd, IoIosAirplane, IoIosVolumeHigh, IoIosVolumeLow } from "react-icons/io";
+//import "react-quill/dist/quill.snow.css";
+import { IoIosVolumeHigh, IoIosVolumeLow } from "react-icons/io";
+import { BiParagraph, BiPencil, BiFont, BiCodeAlt } from "react-icons/bi";
+//import { FaPodcast } from "react-icons/fa"
 import { FaRegComment } from "react-icons/fa";
 import PropTypes from "prop-types";
 import ssmlCheck from "ssml-check";
-/*
- * Event handler to be attached using Quill toolbar module
- * http://quilljs.com/docs/modules/toolbar/
- */
 function insert(quill, start, end) {
   const cursorPositionFirst = quill.getSelection().index;
   const cursorPositionLast =
@@ -17,69 +15,33 @@ function insert(quill, start, end) {
   quill.insertText(cursorPositionLast, end);
   quill.setSelection(cursorPositionFirst + start.length);
 }
-var ssmlToolbarOptions = {
-  container: [
-    ["ssml_speak"], // Add this.
-    [{ ssml_break: ["weak", "strong", "x-strong"] }], // Add this.
-    ["ssml_emphasis"], // Add this.
-    ["ssml_whispering"], // Add this.
-    [
-      {
-        ssml_language: [
-          "en-US",
-          "en-GB",
-          "de-DE",
-          "es-ES",
-          "fr-FR",
-          "it-IT",
-          "nl-NL",
-          "ru-RU",
-          "tr-TR",
-        ],
-      },
-    ], // Add this.
-    ["ssml_paragraph"], // Add this.
-    [
-      {
-        ssml_sayas: [
-          "spell-out",
-          "number",
-          "ordinal",
-          "digits",
-          "fraction",
-          "expletive",
-        ],
-      },
-    ], // Add this.
-    [
-      {
-        ssml_date: ["mdy", "dmy", "ymd", "md", "dm", "ym", "my", "d", "m", "y"],
-      },
-    ], // Add this.
-    ["ssml_substitute"], // Add this.
-    ["ssml_breaths"], // Add this.
-    ["ssml_phoneme"], // Add this.
-    ["ssml_parse"], // Add this.
-    ["ssml_validate"], // Add this.
-  ],
-  handlers: {
-    ssml_speak: function () {}, // Add this.
-    ssml_break: function () {}, // Add this.
-    ssml_emphasis: function () {}, // Add this.
-    ssml_language: function () {}, // Add this.
-    ssml_paragraph: function () {}, // Add this.
-    ssml_sayas: function () {}, // Add this.
-    ssml_date: function () {}, // Add this.
-    ssml_substitute: function () {}, // Add this.
-    ssml_breaths: function () {}, // Add this.
-    ssml_phoneme: function () {}, // Add this.
-    ssml_whispering: function () {}, // Add this.
-    ssml_parse: function () {}, // Add this.
-    ssml_validate: function () {}, // Add this.
-  },
-};
-const ssml_breaks= ["weak", "strong", "x-strong"]
-const ssml_languages= [
+function parse(quill) {
+  var editorContent = quill.getContents().ops;
+  // loop blocks, change in formatting causes new block
+  editorContent.forEach(function (block) {
+    // if formatting is bold emphasis text
+    if (block.attributes && block.attributes.bold) {
+      block.insert = '<emphasis level="strong">' + block.insert + "</emphasis>";
+    }
+    // if formatting is underline emphasis text
+    if (block.attributes && block.attributes.underline) {
+      block.insert = '<emphasis level="strong">' + block.insert + "</emphasis>";
+    }
+    // add breaks before linebreaks for better timing
+    block.insert = block.insert.replace(
+      /(?:\r\n|\r|\n)/g,
+      '<break strength="x-strong"/>\n'
+    );
+  });
+  // add <speak> text at the beginning
+  editorContent.unshift({ insert: "<speak>\n" });
+  // add </speak> text at the end
+  editorContent.push({ insert: "</speak>" });
+  // update editor with parsed SSML text
+  quill.setContents(editorContent);
+}
+const ssml_breaks = ["weak", "strong", "x-strong"];
+const ssml_languages = [
   "en-US",
   "en-GB",
   "de-DE",
@@ -89,56 +51,91 @@ const ssml_languages= [
   "nl-NL",
   "ru-RU",
   "tr-TR",
-]
+];
 const ssml_dates = ["mdy", "dmy", "ymd", "md", "dm", "ym", "my", "d", "m", "y"];
-
+const ssml_sayAs = [
+  "spell-out",
+  "number",
+  "ordinal",
+  "digits",
+  "fraction",
+  "expletive",
+];
 /*
  * Custom toolbar component including insertStar button and dropdowns
  */
-const CustomToolbar = () => (
+const CustomToolbar = () => {
+  return(
   <div id="toolbar">
+    <select className="ql-header">
+        <option value="amazon" className="ql-ssml_date">
+          Amazon
+        </option>
+        <option value="google" className="ql-ssml_date">
+          Google
+        </option>
+    </select>
     <button className="ql-insertSpeak">
       <FaRegComment />
     </button>
     <select className="ql-insertBreak ql-header">
       {ssml_breaks.map((breakOption) => (
-        <option value={breakOption} className="ql-ssml_date">
+        <option key={breakOption} value={breakOption} className="ql-ssml_date">
           {breakOption}
         </option>
       ))}
     </select>
     <button className="ql-insertEmphasis">
-      <IoIosVolumeHigh/>
+      <IoIosVolumeHigh />
     </button>
-    <button className="ql-insertWhispering">
-      <IoIosVolumeLow/>
+    <button className="ql-insertWhisperingAmazon">
+      <IoIosVolumeLow />
     </button>
     <select className="ql-insertLanguage ql-header">
-      {ssml_languages.map((languages) => (
-        <option value={languages} className="ql-ssml_date">
-          {languages}
+      {ssml_languages.map((language) => (
+        <option key={language} value={language} className="ql-ssml_date">
+          {language}
         </option>
       ))}
     </select>
     <button className="ql-insertParagraph">
-      <IoIosVolumeLow/>
+      <BiParagraph />
     </button>
+    <select className="ql-insertSayAs ql-header">
+      {ssml_sayAs.map((say) => (
+        <option key={say} value={say} className="ql-ssml_date">
+          {say}
+        </option>
+      ))}
+    </select>
     <select className="ql-insertDate ql-header">
       {ssml_dates.map((date) => (
-        <option value={date} className="ql-ssml_date">
+        <option key={date} value={date} className="ql-ssml_date">
           {date}
         </option>
       ))}
     </select>
+    <button className="ql-insertSubstitute" title="Substitute">
+      <BiPencil />
+    </button>
+    <button className="ql-insertPhoneme" title="Substitute">
+      <BiFont />
+    </button>
+    <button className="ql-parse" title="Substitute">
+      <BiCodeAlt />
+    </button>
+    {/*<button className="ql-insertBreath" title="Substitute">
+      <FaPodcast/>
+      </button>*/}
 
-    <button className="ql-insertSayAsNumber">
+    {/*<button className="ql-insertSayAsNumber">
       <IoIosAdd />
     </button>
     <button className="ql-insertEmphasisStrong">
       <IoIosAirplane />
-    </button>
+      </button>*/}
   </div>
-);
+);}
 
 /*
  * Editor component with custom toolbar and content containers
@@ -146,6 +143,7 @@ const CustomToolbar = () => (
 function Editor(props) {
   const [editorHtml, setEditorHtml] = useState("");
   const quillRef = useRef(null);
+  const [plataform, setPlataform] = useState("amazon")
   const handleChange = (html) => {
     setEditorHtml(html);
     let element = document.querySelector(".ql-container");
@@ -153,7 +151,7 @@ function Editor(props) {
 
     ssmlCheck
       .check(`${quillRef.current.getEditor().getText()}`, {
-        platform: "amazon"
+        platform: plataform,
       })
       .then((errors) => {
         if (errors) {
@@ -209,24 +207,58 @@ Editor.modules = {
         );
       },
       insertBreak: function (value) {
-        insert(
-          this.quill,
-          '<break strength="' + value + '"/>',
-          ""
-        );
+        insert(this.quill, '<break strength="' + value + '"/>', "");
       },
       insertEmphasis: function () {
         insert(this.quill, '<emphasis level="strong">', "</emphasis>");
       },
-      insertWhispering: function () {
-        insert(this.quill, '<amazon:effect name="whispered">', "</amazon:effect>");
+      insertWhisperingAmazon: function () {
+        insert(
+          this.quill,
+          '<amazon:effect name="whispered">',
+          "</amazon:effect>"
+        );
       },
-      insertLanguage:function (value) {
+      insertWhisperingGoogle: function () {
+        insert(
+          this.quill,
+          '<emphasis level="reduced">',
+          "</emphasis>"
+        );
+      },
+      insertLanguage: function (value) {
         insert(this.quill, '<lang xml:lang="' + value + '">', "</lang>");
       },
       insertParagraph: function () {
-        insert(this.quill, '<p>', "</p>");
+        insert(this.quill, "<p>", "</p>");
       },
+      insertSayAs: function (value) {
+        insert(
+          this.quill,
+          '<say-as interpret-as="' + value + '">',
+          "</say-as>"
+        );
+      },
+      insertSubstitute: function () {
+        insert(
+          this.quill,
+          '<sub alias="Enter Substitute Text Here">',
+          "</sub>"
+        );
+      },
+      insertBreath: function () {
+        insert(this.quill, "<amazon:auto-breaths>", "</amazon:auto-breaths>");
+      },
+      insertPhoneme: function () {
+        insert(
+          this.quill,
+          '<phoneme alphabet="ipa" ph="pɪˈkɑːn">',
+          "</phoneme>"
+        );
+      },
+      parse: function (){
+        parse(this.quill)
+      }
     },
   },
 };
