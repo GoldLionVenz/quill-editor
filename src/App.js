@@ -6,9 +6,11 @@ function App() {
 
 
   return (
-    <>
-    <Editor placeholder="<speak>Your text here</speak>"/>
-    </>
+    <div style={{width:"100%", display:"flex", justifyContent:"center", alignItems:"center", paddingTop:100}}>
+      <div style={{width:"50%", height:"500px", }}>
+        <Editor placeholder="<speak>Your text here</speak>"/>
+      </div>
+    </div>
   )
   
 }
