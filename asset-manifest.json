@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/quill-editor/static/css/main.21fcaf9c.chunk.css",
+    "main.js": "/quill-editor/static/js/main.2c871dcb.chunk.js",
+    "main.js.map": "/quill-editor/static/js/main.2c871dcb.chunk.js.map",
+    "runtime-main.js": "/quill-editor/static/js/runtime-main.9da12a13.js",
+    "runtime-main.js.map": "/quill-editor/static/js/runtime-main.9da12a13.js.map",
+    "static/js/2.635075f2.chunk.js": "/quill-editor/static/js/2.635075f2.chunk.js",
+    "static/js/2.635075f2.chunk.js.map": "/quill-editor/static/js/2.635075f2.chunk.js.map",
+    "index.html": "/quill-editor/index.html",
+    "precache-manifest.cda73fe8d315f2d9722562db35a8af0f.js": "/quill-editor/precache-manifest.cda73fe8d315f2d9722562db35a8af0f.js",
+    "service-worker.js": "/quill-editor/service-worker.js",
+    "static/css/main.21fcaf9c.chunk.css.map": "/quill-editor/static/css/main.21fcaf9c.chunk.css.map",
+    "static/js/2.635075f2.chunk.js.LICENSE.txt": "/quill-editor/static/js/2.635075f2.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.9da12a13.js",
+    "static/js/2.635075f2.chunk.js",
+    "static/css/main.21fcaf9c.chunk.css",
+    "static/js/main.2c871dcb.chunk.js"
+  ]
+}
