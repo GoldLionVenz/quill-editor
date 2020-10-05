@@ -1,16 +1,12 @@
 import React, { useState, useRef } from "react";
 import ReactQuill from "react-quill";
 //import "react-quill/dist/quill.snow.css";
-import { IoIosVolumeHigh, IoIosVolumeLow, IoIosCalendar } from "react-icons/io";
-import { BiParagraph, BiPencil, BiFont, BiCodeAlt } from "react-icons/bi";
 //import { FaPodcast } from "react-icons/fa"
-import { FaRegComment } from "react-icons/fa";
 import PropTypes from "prop-types";
 import ssmlCheck from "ssml-check";
 import CustomToolbarAmazon from './custom-toolbar-amazon'
 import CustomToolbarGoogle from './custom-toolbar-google'
 function insert(quill, start, end) {
-  console.log('quill.getSelection()', quill.getSelection())
   const cursorPositionFirst = quill.getSelection().index;
   const cursorPositionLast =
   cursorPositionFirst + quill.getSelection().length + start.length;
@@ -58,15 +54,16 @@ function parse(quill) {
  * Editor component with custom toolbar and content containers
  */
 function Editor(props) {
-  //const [editorHtml, setEditorHtml] = useState("");
   const quillRef = useRef(null);
+  const quillRefPrev = useRef(null);
   const [plataform, setPlataform] = useState("amazon");
   const handleChange = (html) => {
-    //setEditorHtml(html);
-    //console.log('plain text', html.replace(/<[^>]*>/g, ''))
     let element = document.querySelector(".ql-container");
     let toolbar = document.querySelector("#toolbar")
-    //console.log("ref, vamooos", `${quillRef.current.getEditor().getText()}`);
+    let ssmlDelta = quillRef.current.getEditor().getContents()
+    let ssmlText = JSON.stringify(ssmlDelta);
+    ssmlText = ssmlText.replace(/<[^>]*>/g, '');
+    quillRefPrev.current.getEditor().setContents(JSON.parse(ssmlText));
     ssmlCheck
       .check(`${quillRef.current.getEditor().getText()}`, {
         platform: plataform,
@@ -80,6 +77,7 @@ function Editor(props) {
           element.style.border = "1pt solid #CCCCCC";
           toolbar.style.borderBottom="1pt solid #CCCCCC"
           console.log("SSML is clean");
+          //setPlainText(quillRef.current.getEditor().getText().replace(/<[^>]*>/g, ''))
         }
       });
   };
@@ -91,7 +89,6 @@ function Editor(props) {
       container: "#toolbar",
       handlers: {
         selectPlatform: function(value){
-          console.log('value',value)
           setPlataform(value)
           let element = document.querySelector(".ql-container");
           let toolbar = document.querySelector("#toolbar")
@@ -112,8 +109,6 @@ function Editor(props) {
           });
         },
         insertSpeak: function (props) {
-          console.log(props)
-          console.log('this.quill', this.quill)
           insert(this.quill, "<speak>", "</speak>");
         },
         insertSayAsNumber: function () {
@@ -192,7 +187,6 @@ function Editor(props) {
       container: "#toolbar",
       handlers: {
         selectPlatform: function(value){
-          console.log('value',value)
           setPlataform(value)
           let element = document.querySelector(".ql-container");
           let toolbar = document.querySelector("#toolbar")
@@ -214,7 +208,6 @@ function Editor(props) {
           });
         },
         insertSpeak: function () {
-          console.log(this.props)
           insert(this.quill, "<speak>", "</speak>");
         },
         insertSayAsNumber: function () {
@@ -306,6 +299,16 @@ return (
       onChange={handleChange}
       placeholder={props.placeholder}
       modules={plataform === "amazon"?modulesAmazon:modulesGoogle}
+      id="editor"
+    />
+      
+      <ReactQuill
+      ref={quillRefPrev}
+      readOnly
+      modules={{
+        toolbar:false
+      }}
+      placeholder={props.placeholder}
       id="editor"
     />
   </div>
