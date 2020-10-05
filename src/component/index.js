@@ -7,8 +7,10 @@ import { BiParagraph, BiPencil, BiFont, BiCodeAlt } from "react-icons/bi";
 import { FaRegComment } from "react-icons/fa";
 import PropTypes from "prop-types";
 import ssmlCheck from "ssml-check";
-
+import CustomToolbarAmazon from './custom-toolbar-amazon'
+import CustomToolbarGoogle from './custom-toolbar-google'
 function insert(quill, start, end) {
+  console.log('quill.getSelection()', quill.getSelection())
   const cursorPositionFirst = quill.getSelection().index;
   const cursorPositionLast =
   cursorPositionFirst + quill.getSelection().length + start.length;
@@ -45,191 +47,13 @@ function parse(quill) {
   quill.setContents(editorContent);
 }
 
-const ssml_breaks = ["weak", "strong", "x-strong"];
-const ssml_languages = [
-  "en-US",
-  "en-GB",
-  "de-DE",
-  "es-ES",
-  "fr-FR",
-  "it-IT",
-  "nl-NL",
-  "ru-RU",
-  "tr-TR",
-];
-
-const ssml_dates = ["mdy", "dmy", "ymd", "md", "dm", "ym", "my", "d", "m", "y"];
-const ssml_sayAs = [
-  "spell-out",
-  "number",
-  "ordinal",
-  "digits",
-  "fraction",
-  "expletive",
-];
 /*
  * Custom toolbar component including insertStar button and dropdowns
  */
 
-const CustomToolbarAmazon = (props) => {
-  return (
-    <div id="toolbar">
-      <select
-        value={props.platform}
-        onChange={()=>{}}
-        className="ql-selectPlatform ql-header"
-      >
-        <option value="amazon" className="ql-ssml_date">
-          Amazon
-        </option>
-        <option value="google" className="ql-ssml_date">
-          Google
-        </option>
-      </select>
-      <button className="ql-insertSpeak">
-        <FaRegComment title="Speak"/>
-      </button>
-      <select className="ql-insertBreak ql-header">
-        <option>Break</option>
-       <IoIosCalendar/>
-        {ssml_breaks.map((breakOption) => (
-          <option
-            key={breakOption}
-            value={breakOption}
-            className="ql-ssml_date"
-          >
-            {breakOption}
-          </option>
-        ))}
-      </select>
-      <button className="ql-insertEmphasis">
-        <IoIosVolumeHigh size={30} title="Emphasis"/>
-      </button>
-      {props.plataform === "amazon" ? (
-        <button className="ql-insertWhisperingAmazon">
-          <IoIosVolumeLow size={30} title="Whispering"/>
-        </button>
-      ) : (
-        <button className="ql-insertWhisperingGoogle">
-          <IoIosVolumeLow size={30} title="Whispering"/>
-        </button>
-      )}
-      <select className="ql-insertLanguage ql-header">
-        <option>Languaje</option>
-        {ssml_languages.map((language) => (
-          <option key={language} value={language} className="ql-ssml_date">
-            {language}
-          </option>
-        ))}
-      </select>
-      <button className="ql-insertParagraph">
-        <BiParagraph title="Paragraph"/>
-      </button>
-      <select className="ql-insertSayAs ql-header">
-        <option>Say as</option>
-        {ssml_sayAs.map((say) => (
-          <option key={say} value={say} className="ql-ssml_date">
-            {say}
-          </option>
-        ))}
-      </select>
-      <select className="ql-insertDate ql-header">
-        <option>Date</option>
-        {ssml_dates.map((date) => (
-          <option key={date} value={date} className="ql-ssml_date">
-            {date}
-          </option>
-        ))}
-      </select>
-      <button className="ql-insertSubstitute">
-        <BiPencil title="Substitute"/>
-      </button>
-      <button className="ql-insertPhoneme" >
-        <BiFont title="Phoneme"/>
-      </button>
-      <button className="ql-parse">
-        <BiCodeAlt title="Parse"/>
-      </button>
-      
-    </div>
-  );
-};
 
-const CustomToolbarGoogle = (props) => {
-  return (
-    <div id="toolbar">
-      <select
-        value={props.plataform}
-        onChange={()=>{}}
-        className="ql-selectPlatform ql-header"
-      >
-        <option value="amazon" className="ql-ssml_date">
-          Amazon
-        </option>
-        <option value="google" className="ql-ssml_date">
-          Google
-        </option>
-      </select>
-      <button className="ql-insertSpeak">
-        <FaRegComment />
-      </button>
-      <select className="ql-insertBreak ql-header">
-        <option>Break</option>
-        {ssml_breaks.map((breakOption) => (
-          <option
-            key={breakOption}
-            value={breakOption}
-            className="ql-ssml_date"
-          >
-            {breakOption}
-          </option>
-        ))}
-      </select>
-      <button className="ql-insertEmphasis">
-        <IoIosVolumeHigh size={30}/>
-      </button>
-      <button className="ql-insertWhisperingGoogle">
-        <IoIosVolumeLow size={30}/>
-      </button>
-      {/*<select className="ql-insertLanguage ql-header">
-        {ssml_languages.map((language) => (
-          <option key={language} value={language} className="ql-ssml_date">
-            {language}
-          </option>
-        ))}
-      </select>*/}
-      <button className="ql-insertParagraph">
-        <BiParagraph title="Paragraph"/>
-      </button>
-      <select className="ql-insertSayAs ql-header">
-        <option>Say as</option>
-        {ssml_sayAs.map((say) => (
-          <option key={say} value={say} className="ql-ssml_date">
-            {say}
-          </option>
-        ))}
-      </select>
-      <select className="ql-insertDate ql-header">
-        <option>Date</option>
-        {ssml_dates.map((date) => (
-          <option key={date} value={date} className="ql-ssml_date">
-            {date}
-          </option>
-        ))}
-      </select>
-      <button className="ql-insertSubstitute">
-        <BiPencil title="Substitute"/>
-      </button>
-      {/*<button className="ql-insertPhoneme" >
-        <BiFont title="Phoneme"/>
-      </button>*/}
-      <button className="ql-parse">
-        <BiCodeAlt title="Parse"/>
-      </button>
-      
-    </div>
-  );
-};
+
+
 /*
  * Editor component with custom toolbar and content containers
  */
@@ -237,12 +61,12 @@ function Editor(props) {
   //const [editorHtml, setEditorHtml] = useState("");
   const quillRef = useRef(null);
   const [plataform, setPlataform] = useState("amazon");
-
   const handleChange = (html) => {
     //setEditorHtml(html);
+    //console.log('plain text', html.replace(/<[^>]*>/g, ''))
     let element = document.querySelector(".ql-container");
     let toolbar = document.querySelector("#toolbar")
-    console.log("ref, vamooos", `${quillRef.current.getEditor().getText()}`);
+    //console.log("ref, vamooos", `${quillRef.current.getEditor().getText()}`);
     ssmlCheck
       .check(`${quillRef.current.getEditor().getText()}`, {
         platform: plataform,
@@ -259,8 +83,6 @@ function Editor(props) {
         }
       });
   };
-
-
 
   const modulesAmazon = {
     //toolbar: ssmlToolbarOptions,
@@ -291,6 +113,7 @@ function Editor(props) {
         },
         insertSpeak: function (props) {
           console.log(props)
+          console.log('this.quill', this.quill)
           insert(this.quill, "<speak>", "</speak>");
         },
         insertSayAsNumber: function () {
@@ -325,7 +148,6 @@ function Editor(props) {
           insert(this.quill, '<emphasis level="reduced">', "</emphasis>");
         },
         insertLanguage: function (value) {
-          if(value!=='Languaje')
             insert(this.quill, '<lang xml:lang="' + value + '">', "</lang>");
         },
         insertParagraph: function () {
@@ -465,30 +287,30 @@ function Editor(props) {
     },
   }; 
 
-
-  return (
-    <div className="text-editor">
-      {plataform === "amazon" ? (
-        <CustomToolbarAmazon
-          plataform={plataform}
-          setPlataform={(newPlataform) => setPlataform(newPlataform)}
-        />
-      ) : (
-        <CustomToolbarGoogle
-          plataform={plataform}
-          setPlataform={(newPlataform) => setPlataform(newPlataform)}
-        />
-      )}
-      <ReactQuill
-        ref={quillRef}
-        //value={editorHtml}
-        onChange={handleChange}
-        placeholder={props.placeholder}
-        modules={plataform === "amazon"?modulesAmazon:modulesGoogle}
-        id="editor"
+return (
+  <div className="text-editor">
+    {plataform === "amazon" ? (
+      <CustomToolbarAmazon
+        plataform={plataform}
+        setPlataform={(newPlataform) => setPlataform(newPlataform)}
       />
-    </div>
-  );
+    ) : (
+      <CustomToolbarGoogle
+        plataform={plataform}
+        setPlataform={(newPlataform) => setPlataform(newPlataform)}
+      />
+    )}
+    <ReactQuill
+      ref={quillRef}
+      //value={editorHtml}
+      onChange={handleChange}
+      placeholder={props.placeholder}
+      modules={plataform === "amazon"?modulesAmazon:modulesGoogle}
+      id="editor"
+    />
+  </div>
+);
+
 }
 
 /*
