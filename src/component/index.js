@@ -1,20 +1,16 @@
 import React, { useState, useRef } from "react";
 import ReactQuill from "react-quill";
-//import "react-quill/dist/quill.snow.css";
-//import { FaPodcast } from "react-icons/fa"
 import PropTypes from "prop-types";
 import ssmlCheck from "ssml-check";
 import CustomToolbarAmazon from './custom-toolbar-amazon'
 import CustomToolbarGoogle from './custom-toolbar-google'
+
 function insert(quill, start, end) {
   const cursorPositionFirst = quill.getSelection().index;
-  const cursorPositionLast =
-  cursorPositionFirst + quill.getSelection().length + start.length;
-  
+  const cursorPositionLast = cursorPositionFirst + quill.getSelection().length + start.length;
   quill.insertText(cursorPositionFirst, start);
   quill.insertText(cursorPositionLast, end);
   quill.setSelection(cursorPositionFirst + start.length);
-
 }
 
 function parse(quill) {
@@ -44,19 +40,13 @@ function parse(quill) {
 }
 
 /*
- * Custom toolbar component including insertStar button and dropdowns
- */
-
-
-
-
-/*
  * Editor component with custom toolbar and content containers
  */
 function Editor(props) {
   const quillRef = useRef(null);
   const quillRefPrev = useRef(null);
   const [plataform, setPlataform] = useState("amazon");
+
   const handleChange = (html) => {
     let element = document.querySelector(".ql-container");
     let toolbar = document.querySelector("#toolbar")
@@ -301,9 +291,9 @@ return (
       modules={plataform === "amazon"?modulesAmazon:modulesGoogle}
       id="editor"
     />
-      
-      <ReactQuill
+    <ReactQuill
       ref={quillRefPrev}
+      style={{marginTop:50, borderTop:"1pt solid #CCCCCC"}}
       readOnly
       modules={{
         toolbar:false
