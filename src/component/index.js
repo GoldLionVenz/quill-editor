@@ -42,7 +42,7 @@ function parse(quill) {
 /*
  * Editor component with custom toolbar and content containers
  */
-function Editor(props) {
+function SmmlEditor(props) {
   const quillRef = useRef(null);
   const quillRefPrev = useRef(null);
   const [plataform, setPlataform] = useState("amazon");
@@ -330,7 +330,7 @@ return (
  * Quill editor formats
  * See http://quilljs.com/docs/formats/
  */
-Editor.formats = [
+/*SmmlEditor.formats = [
   "header",
   "font",
   "size",
@@ -345,14 +345,14 @@ Editor.formats = [
   "link",
   "image",
   "color",
-];
+];*/
 
 /*
  * PropType validation
  */
 
-Editor.propTypes = {
+SmmlEditor.propTypes = {
   placeholder: PropTypes.string,
 };
 
-export default Editor;
+export default SmmlEditor;
