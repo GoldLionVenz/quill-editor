@@ -21,3 +21,7 @@ export const ssml_sayAs = [
   "fraction",
   "expletive",
 ];
+
+export const ssml_emphasis = ["strong", "moderate", "reduced"];
+
+export const ssml_words = ["amazon:VB","amazon:VBD","amazon:NN","amazon:SENSE_1"]

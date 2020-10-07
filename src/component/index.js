@@ -57,6 +57,7 @@ function Editor(props) {
     ssmlCheck
       .check(`${quillRef.current.getEditor().getText()}`, {
         platform: plataform,
+        locale: 'en-AU'
       })
       .then((errors) => {
         if (errors) {
@@ -119,8 +120,8 @@ function Editor(props) {
           if(value!=='Break')
             insert(this.quill, '<break strength="' + value + '"/>', "");
         },
-        insertEmphasis: function () {
-          insert(this.quill, '<emphasis level="strong">', "</emphasis>");
+        insertEmphasis: function (value) {
+          insert(this.quill, `<emphasis level="${value}">`, "</emphasis>");
         },
         insertWhisperingAmazon: function () {
           insert(
@@ -162,6 +163,16 @@ function Editor(props) {
             '<phoneme alphabet="ipa" ph="pɪˈkɑːn">',
             "</phoneme>"
           );
+        },
+        insertSentence: function () {
+          insert(
+            this.quill,
+            '<s>',
+            "</s>"
+          );
+        },
+        insertWords: function (value) {
+          insert(this.quill, `<w role="${value}">`, "</w>");
         },
         parse: function () {
           parse(this.quill);
