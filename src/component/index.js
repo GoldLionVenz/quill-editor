@@ -264,8 +264,12 @@ function Editor(props) {
             "</sub>"
           );
         },
-        insertBreath: function () {
-          insert(this.quill, "<amazon:auto-breaths>", "</amazon:auto-breaths>");
+        insertSentence: function () {
+          insert(
+            this.quill,
+            '<s>',
+            "</s>"
+          );
         },
         /*insertPhoneme: function () {
           insert(
