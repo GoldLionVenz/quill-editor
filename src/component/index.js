@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import ssmlCheck from "ssml-check";
 import CustomToolbarAmazon from './custom-toolbar-amazon'
 import CustomToolbarGoogle from './custom-toolbar-google'
-
 function insert(quill, start, end) {
   const cursorPositionFirst = quill.getSelection().index;
   const cursorPositionLast = cursorPositionFirst + quill.getSelection().length + start.length;
@@ -285,16 +284,30 @@ function SmmlEditor(props) {
     },
   }; 
 
+const sendAmazon = async () =>{
+  const peticion = await fetch("https://d26180lc1c.execute-api.eu-south-1.amazonaws.com/dev/request",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      "textbox":quillRef.current.getEditor().getText()
+    })
+  })
+  const resp = await peticion.json()
+  console.log(resp)
+}
 return (
   <div className="text-editor">
     {plataform === "amazon" ? (
       <CustomToolbarAmazon
-        plataform={plataform}
+
+        platform={plataform}
         setPlataform={(newPlataform) => setPlataform(newPlataform)}
       />
     ) : (
       <CustomToolbarGoogle
-        plataform={plataform}
+        platform={plataform}
         setPlataform={(newPlataform) => setPlataform(newPlataform)}
       />
     )}
@@ -314,8 +327,24 @@ return (
         toolbar:false
       }}
       placeholder={props.placeholder}
-      id="editor"
+      id="editor2"
     />
+    <div style={{marginTop:"10px", display:"flex",justifyContent:"flex-end"}}>
+      <button onClick={sendAmazon} style={{
+        border: 0,
+        cursor: "pointer",
+        margin: 0,
+        display: "inline-flex",
+        outline: 0,
+        justifyContent: "center",
+        textDecoration: "none",
+        minWidth: "64px",
+        padding:"6px 16px",
+        fontSize:"0.875rem",
+
+      }}>Send</button>
+    </div>
+    
   </div>
 );
 

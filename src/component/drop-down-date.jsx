@@ -6,7 +6,7 @@ export default function DropDownBreak(props){
     const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false)
 
     return (
-        <span ref={ref} className={`ql-ssml_date ql-picker ${isComponentVisible?"ql-expanded":""}`} style={{width: 45, padding: "4px 0px 0px"}} onClick={() => setIsComponentVisible(!isComponentVisible)}>
+        <span data-testid="select" ref={ref} className={`ql-ssml_date ql-picker ${isComponentVisible?"ql-expanded":""}`} style={{width: 45, padding: "4px 0px 0px"}} onClick={() => setIsComponentVisible(!isComponentVisible)}>
             <span className="ql-picker-label" tabIndex="0" role="button" style={{display:"flex", alignItems:"center"}}>
                 <i className="calendar alternate outline icon" title="Date"></i>
                 <svg viewBox="0 0 18 18">

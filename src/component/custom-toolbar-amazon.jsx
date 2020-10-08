@@ -8,6 +8,7 @@ import DropDownSayAs from './drop-down-sayAs'
 import DropDownDate from './drop-down-date'
 import DropDownEmphasis from "./drop-down-emphasis"
 import DropDownWords from "./drop-down-words"
+import PropTypes from "prop-types";
 export default function CustomToolbarAmazon(props){
 
     return (
@@ -32,4 +33,7 @@ export default function CustomToolbarAmazon(props){
       </div>
     );
 };
-  
+
+CustomToolbarAmazon.propTypes={
+  platform:PropTypes.oneOf(['amazon', 'google']).isRequired
+}

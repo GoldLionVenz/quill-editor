@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<span
+  className="ql-ssml_date ql-picker "
+  data-testid="select"
+  onClick={[Function]}
+  style={
+    Object {
+      "padding": "4px 0px 0px",
+      "width": 45,
+    }
+  }
+>
+  <span
+    className="ql-picker-label"
+    role="button"
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+      }
+    }
+    tabIndex="0"
+  >
+    <i
+      className="calendar alternate outline icon"
+      title="Date"
+    />
+    <svg
+      viewBox="0 0 18 18"
+    >
+      <polygon
+        className="ql-stroke"
+        points="7 11 9 13 11 11 7 11"
+      />
+      <polygon
+        className="ql-stroke"
+        points="7 7 9 5 11 7 7 7"
+      />
+    </svg>
+  </span>
+  <span
+    className="ql-picker-options"
+    id="ql-picker-options-3"
+    tabIndex="-1"
+  >
+    <button
+      className="ql-insertDate ql-picker-item"
+      value="mdy"
+    >
+      mdy
+    </button>
+    <button
+      className="ql-insertDate ql-picker-item"
+      value="dmy"
+    >
+      dmy
+    </button>
+    <button
+      className="ql-insertDate ql-picker-item"
+      value="ymd"
+    >
+      ymd
+    </button>
+    <button
+      className="ql-insertDate ql-picker-item"
+      value="md"
+    >
+      md
+    </button>
+    <button
+      className="ql-insertDate ql-picker-item"
+      value="dm"
+    >
+      dm
+    </button>
+    <button
+      className="ql-insertDate ql-picker-item"
+      value="ym"
+    >
+      ym
+    </button>
+    <button
+      className="ql-insertDate ql-picker-item"
+      value="my"
+    >
+      my
+    </button>
+    <button
+      className="ql-insertDate ql-picker-item"
+      value="d"
+    >
+      d
+    </button>
+    <button
+      className="ql-insertDate ql-picker-item"
+      value="m"
+    >
+      m
+    </button>
+    <button
+      className="ql-insertDate ql-picker-item"
+      value="y"
+    >
+      y
+    </button>
+  </span>
+</span>
+`;
