@@ -45,7 +45,7 @@ function SmmlEditor(props) {
   const quillRef = useRef(null);
   const quillRefPrev = useRef(null);
   const [plataform, setPlataform] = useState("amazon");
-
+  const [disabledButton, setDisabledButton] = useState(true)
   const handleChange = (html) => {
     let element = document.querySelector(".ql-container");
     let toolbar = document.querySelector("#toolbar")
@@ -60,10 +60,12 @@ function SmmlEditor(props) {
       })
       .then((errors) => {
         if (errors) {
+          setDisabledButton(true)
           element.style.border = "1pt solid red";
           toolbar.style.borderBottom="1pt solid red"
           console.log(JSON.stringify({ errors }));
         } else {
+          setDisabledButton(false)
           element.style.border = "1pt solid #CCCCCC";
           toolbar.style.borderBottom="1pt solid #CCCCCC"
           console.log("SSML is clean");
@@ -285,14 +287,13 @@ function SmmlEditor(props) {
   }; 
 
 const sendAmazon = async () =>{
-  const peticion = await fetch("https://d26180lc1c.execute-api.eu-south-1.amazonaws.com/dev/request",{
+  const peticion = await fetch("https://hsfcmjfne4.execute-api.eu-south-1.amazonaws.com/dev/request",{
     method:"POST",
     headers:{
-      "Content-Type":"application/json"
+      "Content-Type":"application/json",
+      //mode: 'no-cors'
     },
-    body:JSON.stringify({
-      "textbox":quillRef.current.getEditor().getText()
-    })
+    body:quillRef.current.getEditor().getText()
   })
   const resp = await peticion.json()
   console.log(resp)
@@ -330,7 +331,10 @@ return (
       id="editor2"
     />
     <div style={{marginTop:"10px", display:"flex",justifyContent:"flex-end"}}>
-      <button onClick={sendAmazon} style={{
+      <button 
+        disabled={disabledButton}
+        onClick={sendAmazon} 
+        style={{
         border: 0,
         cursor: "pointer",
         margin: 0,
